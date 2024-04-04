@@ -1,0 +1,459 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>Sonic4</AssemblyName>
+    <Description>My first plugin</Description>
+    <Version>1.0.0</Version>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>preview</LangVersion>
+    <RestoreAdditionalProjectSources>
+      https://api.nuget.org/v3/index.json;
+      https://nuget.bepinex.dev/v3/index.json;
+      https://nuget.samboy.dev/v3/index.json
+    </RestoreAdditionalProjectSources>
+    <RootNamespace>Sonic4</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.*" IncludeAssets="compile" />
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ArzestLib">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\ArzestLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ArzestLibDefault">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\ArzestLibDefault.dll</HintPath>
+    </Reference>
+    <Reference Include="ArzestLibEpic">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\ArzestLibEpic.dll</HintPath>
+    </Reference>
+    <Reference Include="ArzestLibEpicSetting">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\ArzestLibEpicSetting.dll</HintPath>
+    </Reference>
+    <Reference Include="ArzestLibSteam">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\ArzestLibSteam.dll</HintPath>
+    </Reference>
+    <Reference Include="ArzestLibSteamSetting">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\ArzestLibSteamSetting.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="Backtrace.Unity">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Backtrace.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="BakeryRuntimeAssembly">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\BakeryRuntimeAssembly.dll</HintPath>
+    </Reference>
+    <Reference Include="Boxophobic.AtmosphericHeightFog.Runtime">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Boxophobic.AtmosphericHeightFog.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Boxophobic.Utils.Scripts">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Boxophobic.Utils.Scripts.dll</HintPath>
+    </Reference>
+    <Reference Include="Cinemachine">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Cinemachine.dll</HintPath>
+    </Reference>
+    <Reference Include="ColliderVisualizer">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\ColliderVisualizer.dll</HintPath>
+    </Reference>
+    <Reference Include="com.arzest.networklib.runtime.helper">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\com.arzest.networklib.runtime.helper.dll</HintPath>
+    </Reference>
+    <Reference Include="com.arzest.networklib.runtime.netcommand">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\com.arzest.networklib.runtime.netcommand.dll</HintPath>
+    </Reference>
+    <Reference Include="com.arzest.networklib.runtime.platform.eos">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\com.arzest.networklib.runtime.platform.eos.dll</HintPath>
+    </Reference>
+    <Reference Include="com.arzest.networklib.runtime.platform.steam">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\com.arzest.networklib.runtime.platform.steam.dll</HintPath>
+    </Reference>
+    <Reference Include="com.arzest.networklib.runtime.platform.xbox">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\com.arzest.networklib.runtime.platform.xbox.dll</HintPath>
+    </Reference>
+    <Reference Include="com.Epic.OnlineServices">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\com.Epic.OnlineServices.dll</HintPath>
+    </Reference>
+    <Reference Include="com.playeveryware.eos">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\com.playeveryware.eos.dll</HintPath>
+    </Reference>
+    <Reference Include="com.playeveryware.eos.essential">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\com.playeveryware.eos.essential.dll</HintPath>
+    </Reference>
+    <Reference Include="com.rlabrecque.steamworks.net">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\com.rlabrecque.steamworks.net.dll</HintPath>
+    </Reference>
+    <Reference Include="CriMw.CriWare.Runtime">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\CriMw.CriWare.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="Elringus.SpriteGlow.Runtime">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Elringus.SpriteGlow.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2CppMono.Security">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Il2CppMono.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2Cppmscorlib">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Il2Cppmscorlib.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2CppSystem">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Il2CppSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2CppSystem.Configuration">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Il2CppSystem.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2CppSystem.Core">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Il2CppSystem.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2CppSystem.Data">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Il2CppSystem.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2CppSystem.Numerics">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Il2CppSystem.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2CppSystem.Runtime.CompilerServices.Unsafe">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Il2CppSystem.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2CppSystem.Runtime.Serialization">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Il2CppSystem.Runtime.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2CppSystem.Xml">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Il2CppSystem.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2CppSystem.Xml.Linq">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Il2CppSystem.Xml.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="IngameDebugConsole.Runtime">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\IngameDebugConsole.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="MeshBakerCore">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\MeshBakerCore.dll</HintPath>
+    </Reference>
+    <Reference Include="MessagePack">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\MessagePack.dll</HintPath>
+    </Reference>
+    <Reference Include="MessagePack.Annotations">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\MessagePack.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="Network">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Network.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="OriInputSystemDefault">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\OriInputSystemDefault.dll</HintPath>
+    </Reference>
+    <Reference Include="PlayFab">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\PlayFab.dll</HintPath>
+    </Reference>
+    <Reference Include="PlayFabParty">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\PlayFabParty.dll</HintPath>
+    </Reference>
+    <Reference Include="PPExtensions">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\PPExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleAnimationComponent">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\SimpleAnimationComponent.dll</HintPath>
+    </Reference>
+    <Reference Include="UniRx">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UniRx.dll</HintPath>
+    </Reference>
+    <Reference Include="UniTask">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UniTask.dll</HintPath>
+    </Reference>
+    <Reference Include="UniTask.Addressables">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UniTask.Addressables.dll</HintPath>
+    </Reference>
+    <Reference Include="UniTask.DOTween">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UniTask.DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="UniTask.Linq">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UniTask.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="UniTask.TextMeshPro">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UniTask.TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.SpriteShape.Runtime">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Unity.2D.SpriteShape.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Addressables">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Unity.Addressables.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Animation.Rigging">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Unity.Animation.Rigging.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Unity.Burst.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst.Unsafe">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Unity.Burst.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Collections">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Unity.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Collections.LowLevel.ILSupport">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.InputSystem">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Unity.InputSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Localization">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Unity.Localization.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mathematics">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Unity.Mathematics.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Netcode.Runtime">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Unity.Netcode.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Networking.Transport">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Unity.Networking.Transport.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ProBuilder">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Unity.ProBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ProBuilder.KdTree">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Unity.ProBuilder.KdTree.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ProBuilder.Poly2Tri">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Unity.ProBuilder.Poly2Tri.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.Runtime">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.Runtime">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ResourceManager">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Unity.ResourceManager.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Unity.TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Timeline">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\Unity.Timeline.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AccessibilityModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.AccessibilityModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AIModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.AIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AndroidJNIModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.AndroidJNIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.AnimationModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AssetBundleModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.AssetBundleModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.AudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClothModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.ClothModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClusterInputModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.ClusterInputModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClusterRendererModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.ClusterRendererModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CrashReportingModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.CrashReportingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.DirectorModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.DirectorModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.DSPGraphModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.DSPGraphModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.GameCenterModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.GameCenterModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.GIModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.GIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.GridModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.GridModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.HotReloadModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.HotReloadModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.ImageConversionModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.InputLegacyModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.InputModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.JSONSerializeModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.JSONSerializeModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.LocalizationModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.LocalizationModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ParticleSystemModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.ParticleSystemModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PerformanceReportingModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.PerformanceReportingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Physics2DModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.Physics2DModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ProfilerModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.ProfilerModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ScreenCaptureModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.ScreenCaptureModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SharedInternalsModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.SharedInternalsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpriteMaskModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.SpriteMaskModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpriteShapeModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.SpriteShapeModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.StreamingModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.StreamingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SubstanceModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.SubstanceModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SubsystemsModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.SubsystemsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TerrainModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.TerrainModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TerrainPhysicsModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.TerrainPhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextCoreFontEngineModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.TextCoreFontEngineModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextCoreTextEngineModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.TextCoreTextEngineModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.TextRenderingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TilemapModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.TilemapModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TLSModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.TLSModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIElementsModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.UIElementsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIElementsNativeModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.UIElementsNativeModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.UIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UmbraModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.UmbraModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UNETModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.UNETModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityAnalyticsCommonModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.UnityAnalyticsCommonModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityAnalyticsModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.UnityAnalyticsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityConnectModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.UnityConnectModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityCurlModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.UnityCurlModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityTestProtocolModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.UnityTestProtocolModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestAudioModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.UnityWebRequestModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestTextureModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestWWWModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VehiclesModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.VehiclesModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VFXModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.VFXModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VideoModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.VideoModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VirtualTexturingModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.VirtualTexturingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VRModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.VRModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.WindModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.WindModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.XRModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Sonic Superstars\BepInEx\interop\UnityEngine.XRModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>
