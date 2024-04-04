@@ -1,14 +1,10 @@
-﻿using System;
-using HarmonyLib;
+﻿using HarmonyLib;
 using OriBattleRoyal;
 using Orion;
 using OriPlayer;
 using OriPlayerAction;
-using OriUI;
 using OriUnit;
-using Sonic4.Extensions;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Local
