@@ -21,8 +21,5 @@ public class Plugin : BasePlugin
         ClassInjector.RegisterTypeInIl2Cpp<PlayerSonicModern2D>();
         ClassInjector.RegisterTypeInIl2Cpp<PlayerUniqueComponentSonicModern>();
         ClassInjector.RegisterTypeInIl2Cpp<PlActionBounceSonic>();
-        ClassInjector.RegisterTypeInIl2Cpp<PlActionDrillKnuckles>();
-            
-        Addressables.LoadContentCatalogAsync(Application.streamingAssetsPath + "/aa/WistfulHopes/catalog.json", true);
     }
 }

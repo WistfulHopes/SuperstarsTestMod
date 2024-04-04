@@ -302,29 +302,3 @@ class GlideFallUpdatePatch
         }
     }
 }
-
-/*[HarmonyPatch(typeof(PlayerBase), nameof(PlayerBase.InitAnimationSimple))]
-class InitAnimPatch
-{
-    static void Postfix(PlayerBase __instance)
-    {
-        if (__instance.TryCast<PlayerKnuckles2D>() != null)
-        {
-            var loadHandle = Addressables.LoadAssetAsync<AnimationClip>("KnucklesDrill");
-            var drillAnim = loadHandle.WaitForCompletion();
-            __instance.animSimple.AddState(drillAnim, "Drill");
-        }
-    }
-}*/
-
-[HarmonyPatch(typeof(PlayerBase), nameof(PlayerBase.GetPlayAnimName))]
-class GetPlayAnimNamePatch
-{
-    static void Postfix(PlayerBase.EAnimIndex index, ref String __result)
-    {
-        if (index == (PlayerBase.EAnimIndex)301)
-        {
-            __result = "Drill";
-        }
-    }
-}
