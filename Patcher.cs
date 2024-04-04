@@ -35,17 +35,6 @@ class SonicInitActionPatch
     }
 }
 
-/*[HarmonyPatch(typeof(PlayerKnuckles2D), nameof(PlayerKnuckles2D.InitAction))]
-class KnucklesInitActionPatch
-{
-    static void Postfix(PlayerKnuckles2D __instance)
-    {
-        var drillAction = new PlActionDrillKnuckles();
-        var actionId = (PlayerBase.EActionIndex)301;
-        __instance.SetUpAction(ref actionId, drillAction);
-    }
-}*/
-
 [HarmonyPatch(typeof(PlActionJumpUniqueTails), nameof(PlActionJumpUniqueTails.Update))]
 class FlyUpdate
 {

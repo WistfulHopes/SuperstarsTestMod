@@ -16,7 +16,6 @@ public class Plugin : BasePlugin
         Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
         
         Patcher.DoPatching();
-        //ClassInjector.RegisterTypeInIl2Cpp<PlActionRunSonic>();
         
         ClassInjector.RegisterTypeInIl2Cpp<PlayerSonicModern2D>();
         ClassInjector.RegisterTypeInIl2Cpp<PlayerUniqueComponentSonicModern>();
