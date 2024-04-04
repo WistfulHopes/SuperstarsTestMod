@@ -13,12 +13,12 @@ public class Plugin : BasePlugin
     public override void Load()
     {
         // Plugin startup logic
-        Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
-        
         Patcher.DoPatching();
         
         ClassInjector.RegisterTypeInIl2Cpp<PlayerSonicModern2D>();
         ClassInjector.RegisterTypeInIl2Cpp<PlayerUniqueComponentSonicModern>();
         ClassInjector.RegisterTypeInIl2Cpp<PlActionBounceSonic>();
+        
+        Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
     }
 }
