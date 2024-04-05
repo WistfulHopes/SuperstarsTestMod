@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Il2CppInterop.Runtime.Injection;
 using OriColli;
 using OriPlayer;
