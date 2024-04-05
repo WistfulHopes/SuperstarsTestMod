@@ -5,10 +5,11 @@ using Orion;
 using OriPlayer;
 using OriPlayerAction;
 using OriUnit;
+using Sonic4;
 using static DB_PlayerStats;
 // ReSharper disable InconsistentNaming
 
-namespace Sonic4;
+namespace SuperstarsTestMod;
 
 public class PlActionBounceSonic : PlActionJumpUniqueSonic
 {
@@ -103,8 +104,8 @@ public class PlActionBounceSonic : PlActionJumpUniqueSonic
             var nowPad = inpPlyCtrl.playerPad.nowPad;
             if (!SysSaveDataKeyboardConfig.IsTriggerAction(SysSaveDataKeyboardConfig.EAction.Action, nowPad)) return;
             heightMultiplier += (float)0.1;
-            if (heightMultiplier >= 1.5)
-                heightMultiplier = (float)1.5;
+            if (heightMultiplier >= 1.25)
+                heightMultiplier = (float)1.25;
             Fall();
         }
         else

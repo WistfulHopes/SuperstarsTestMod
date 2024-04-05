@@ -1,7 +1,7 @@
 ﻿using Il2CppSystem.Collections.Generic;
 using Il2CppSystem.Linq;
 
-namespace Sonic4.Extensions;
+namespace SuperstarsTestMod.Extensions;
 
 public static class ListExtra
 {

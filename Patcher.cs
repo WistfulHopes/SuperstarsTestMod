@@ -4,12 +4,13 @@ using Orion;
 using OriPlayer;
 using OriPlayerAction;
 using OriUnit;
+using Sonic4;
 using UnityEngine;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Local
 
-namespace Sonic4;
+namespace SuperstarsTestMod;
 
 public class Patcher
 {
