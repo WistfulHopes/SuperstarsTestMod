@@ -79,6 +79,15 @@ class GlideFallLandUpdate
     }
 }
 
+[HarmonyPatch(typeof(PlActionBase2D), nameof(PlActionBase2D.UpdateUniqueTails))]
+class UpdateUniqueTails
+{
+    static bool Prefix(PlActionBase2D __instance)
+    {
+        return __instance.ownerPlyer.lastAction != PlayerBase.EActionIndex.ActJumpUnique;
+    }
+}
+
 [HarmonyPatch(typeof(PlActionBase2D), nameof(PlActionBase2D.UpdateUniqueSonic))]
 class UpdateUniqueSonic
 {

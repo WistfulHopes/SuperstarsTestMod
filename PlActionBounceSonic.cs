@@ -20,7 +20,7 @@ public class PlActionBounceSonic : PlActionJumpUniqueSonic
 
     private EState state;
     private float bounceVelocity;
-    private float heightMultiplier = (float)1.0;
+    private int bounceCount;
     
     public PlActionBounceSonic(IntPtr ptr) : base(ptr)
     {
@@ -36,8 +36,9 @@ public class PlActionBounceSonic : PlActionJumpUniqueSonic
     private void Fall()
     {
         state = EState.Fall;
+        bounceCount++;
         var ownerPlyerVelocity = ownerPlyer.velocity;
-        ownerPlyerVelocity.y = -6;
+        ownerPlyerVelocity.y = -8;
         ownerPlyer.velocity = ownerPlyerVelocity;
         var bodyVisible = false;
         ownerPlyer.SetBodyVisible(ref bodyVisible);
@@ -55,7 +56,7 @@ public class PlActionBounceSonic : PlActionJumpUniqueSonic
     
     public override void End([In] ref PlayerBase.EActionIndex nextId)
     {
-        heightMultiplier = (float)1.0;
+        bounceCount = 0;
         bounceVelocity = 0;
         ownerPlyer.ResetDrawLayer();
         ownerPlyer.ChangeBallForm(false);
@@ -79,7 +80,7 @@ public class PlActionBounceSonic : PlActionJumpUniqueSonic
         if (ownerPlyer.IsOnGround)
         {
             var ownerPlyerVelocity = ownerPlyer.velocity;
-            ownerPlyerVelocity.y = bounceVelocity * heightMultiplier;
+            ownerPlyerVelocity.y = bounceVelocity;
             ownerPlyer.velocity = ownerPlyerVelocity;
             ownerPlyer.ResetOnGround();
             ownerPlyer.PlaySe(PlayerBase.ESe.SpinRollDash);
@@ -102,10 +103,9 @@ public class PlActionBounceSonic : PlActionJumpUniqueSonic
             var inpPlyCtrl = ownerPlyer.inputPlyCtlr;
             var nowPad = inpPlyCtrl.playerPad.nowPad;
             
-            if (ownerPlyer.velocity.y > bounceVelocity * 0.8 * heightMultiplier || heightMultiplier >= 1.3) return;
+            if (ownerPlyer.velocity.y > bounceVelocity * 0.8 || bounceCount >= 3) return;
 
             if (!SysSaveDataKeyboardConfig.IsTriggerAction(SysSaveDataKeyboardConfig.EAction.Action, nowPad)) return;
-            heightMultiplier += (float)0.2;
             Fall();
         }
         else
@@ -113,15 +113,15 @@ public class PlActionBounceSonic : PlActionJumpUniqueSonic
             var typeBit = ETypeBit.Super;
             if (ownerPlyer.IsActDb(ref typeBit))
             {
-                bounceVelocity = -ownerPlyer.velocity.y * (float)0.15 + bounceVelocity * 0.8f;
-                if (bounceVelocity <= 3.9)
-                    bounceVelocity = (float)3.9;
+                bounceVelocity = -ownerPlyer.velocity.y * (float)0.1 + bounceVelocity * 0.8f;
+                if (bounceVelocity <= 8)
+                    bounceVelocity = 8;
             }
             else
             {
-                bounceVelocity = -ownerPlyer.velocity.y * (float)0.15 + bounceVelocity * 0.8f;
-                if (bounceVelocity <= 2.8)
-                    bounceVelocity = (float)2.8;
+                bounceVelocity = -ownerPlyer.velocity.y * (float)0.1 + bounceVelocity * 0.8f;
+                if (bounceVelocity <= 6.1)
+                    bounceVelocity = (float)6.1;
             }
         }
     }
