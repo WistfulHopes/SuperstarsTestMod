@@ -4,7 +4,6 @@ using Orion;
 using OriPlayer;
 using OriPlayerAction;
 using OriUnit;
-using Sonic4;
 using UnityEngine;
 
 // ReSharper disable InconsistentNaming
@@ -37,17 +36,14 @@ class FlyUpdate
 {
     static bool Prefix(PlActionJumpUniqueTails __instance)
     {
-        bool isJumpTriggered = __instance.ownerPlyer.IsJumpTriggered();
+        var isJumpTriggered = __instance.ownerPlyer.IsJumpTriggered();
         var inpPlyCtrl = __instance.ownerPlyer.inputPlyCtlr;
         var nowPad = inpPlyCtrl.playerPad.nowPad;
-        if (SysSaveDataKeyboardConfig.IsOnAction(SysSaveDataKeyboardConfig.EAction.MoveDown, nowPad) && isJumpTriggered)
-        {
-            var actionId = PlayerBase.EActionIndex.ActJumpStampBound;
-            __instance.ChangeAction(ref actionId);
-            return false;
-        }
-
-        return true;
+        if (!SysSaveDataKeyboardConfig.IsOnAction(SysSaveDataKeyboardConfig.EAction.MoveDown, nowPad) ||
+            !isJumpTriggered) return true;
+        var actionId = PlayerBase.EActionIndex.ActJumpStampBound;
+        __instance.ChangeAction(ref actionId);
+        return false;
     }
 }
 
@@ -56,17 +52,14 @@ class GlideLandUpdate
 {
     static bool Prefix(PlActionKnucklesGlideLanding __instance)
     {
-        bool isJumpTriggered = __instance.ownerPlyer.IsJumpTriggered();
+        var isJumpTriggered = __instance.ownerPlyer.IsJumpTriggered();
         var inpPlyCtrl = __instance.ownerPlyer.inputPlyCtlr;
         var nowPad = inpPlyCtrl.playerPad.nowPad;
-        if (SysSaveDataKeyboardConfig.IsOnAction(SysSaveDataKeyboardConfig.EAction.MoveDown, nowPad) && isJumpTriggered)
-        {
-            var actionId = PlayerBase.EActionIndex.ActSpinDashCharge;
-            __instance.ChangeAction(ref actionId);
-            return false;
-        }
-
-        return true;
+        if (!SysSaveDataKeyboardConfig.IsOnAction(SysSaveDataKeyboardConfig.EAction.MoveDown, nowPad) ||
+            !isJumpTriggered) return true;
+        var actionId = PlayerBase.EActionIndex.ActSpinDashCharge;
+        __instance.ChangeAction(ref actionId);
+        return false;
     }
 }
 
@@ -75,17 +68,14 @@ class GlideFallLandUpdate
 {
     static bool Prefix(PlActionKnucklesGlideFallLanding __instance)
     {
-        bool isJumpTriggered = __instance.ownerPlyer.IsJumpTriggered();
+        var isJumpTriggered = __instance.ownerPlyer.IsJumpTriggered();
         var inpPlyCtrl = __instance.ownerPlyer.inputPlyCtlr;
         var nowPad = inpPlyCtrl.playerPad.nowPad;
-        if (SysSaveDataKeyboardConfig.IsOnAction(SysSaveDataKeyboardConfig.EAction.MoveDown, nowPad) && isJumpTriggered)
-        {
-            var actionId = PlayerBase.EActionIndex.ActSpinDashCharge;
-            __instance.ChangeAction(ref actionId);
-            return false;
-        }
-
-        return true;
+        if (!SysSaveDataKeyboardConfig.IsOnAction(SysSaveDataKeyboardConfig.EAction.MoveDown, nowPad) ||
+            !isJumpTriggered) return true;
+        var actionId = PlayerBase.EActionIndex.ActSpinDashCharge;
+        __instance.ChangeAction(ref actionId);
+        return false;
     }
 }
 
@@ -98,30 +88,30 @@ class UpdateUniqueSonic
         {
             __instance.firstUpdateUniqActCheck = __instance.ownerPlyer.IsJumpTriggered();
         }
-        if (__instance.IsUniqueActBase && __instance.ownerPlyer.IsRoll && __instance.firstUpdateUniqActCheck)
+
+        if (!__instance.IsUniqueActBase || !__instance.ownerPlyer.IsRoll ||
+            !__instance.firstUpdateUniqActCheck) return false;
+        
+        var isJumpPress = __instance.ownerPlyer.IsJumpPress();
+        if (isJumpPress)
         {
-            bool isJumpPress = __instance.ownerPlyer.IsJumpPress();
-            if (isJumpPress)
+            if (__instance.animIputRate > 0)
             {
-                if (__instance.animIputRate > 0)
-                {
-                    __instance.animIputRate += __instance.ownerPlyer.GetDeltaTime;
-                    if (__instance.animIputRate >= 0.3666)
-                    {
-                        var actionId = PlayerBase.EActionIndex.ActJumpUnique;
-                        __instance.ChangeAction(ref actionId);
-                    }
-                }
-                else
-                {
-                    __instance.animIputRate = (float)(__instance.ownerPlyer.GetDeltaTime + 0.016667);
-                }
-            }
-            else if (__instance.animIputRate > 0)
-            {
-                var actionId = (PlayerBase.EActionIndex)300;
+                __instance.animIputRate += __instance.ownerPlyer.GetDeltaTime;
+                if (!(__instance.animIputRate >= 0.3666)) return false;
+                
+                var actionId = PlayerBase.EActionIndex.ActJumpUnique;
                 __instance.ChangeAction(ref actionId);
             }
+            else
+            {
+                __instance.animIputRate = (float)(__instance.ownerPlyer.GetDeltaTime + 0.016667);
+            }
+        }
+        else if (__instance.animIputRate > 0)
+        {
+            var actionId = (PlayerBase.EActionIndex)300;
+            __instance.ChangeAction(ref actionId);
         }
         return false;
     }
@@ -147,23 +137,21 @@ class SpinDashChargeUpdatePatch
     {
         __instance.CallBase<PlActionBase2D>(nameof(PlActionBase2D.Update));
 
-        if (__instance.ownerPlyer.IsOnGround)
+        if (!__instance.ownerPlyer.IsOnGround) return false;
+        if (__instance.ownerPlyer.IsJumpTriggered())
         {
-            if (__instance.ownerPlyer.IsJumpTriggered())
-            {
-                __instance.addCharge = true;
-            }
-
-            if (__instance.ownerPlyer.IsDirDown()) return false;
-            var action = PlayerBase.EActionIndex.ActGmkRailSlide;
-
-            if (!__instance.ownerPlyer.IsTransitActRideSlide())
-            {
-                action = __instance.GetType() == typeof(PlActionBRSpinDashCharge) ? PlayerBase.EActionIndex.ActRun : PlayerBase.EActionIndex.ActSpinDash;
-            }
-                
-            __instance.ChangeAction(ref action);
+            __instance.addCharge = true;
         }
+
+        if (__instance.ownerPlyer.IsDirDown()) return false;
+        var action = PlayerBase.EActionIndex.ActGmkRailSlide;
+
+        if (!__instance.ownerPlyer.IsTransitActRideSlide())
+        {
+            action = __instance.GetType() == typeof(PlActionBRSpinDashCharge) ? PlayerBase.EActionIndex.ActRun : PlayerBase.EActionIndex.ActSpinDash;
+        }
+
+        __instance.ChangeAction(ref action);
 
         return false;
     }
@@ -224,54 +212,54 @@ class GlideUpdatePatch
     static bool Prefix(PlActionJumpUniqueKnuckles __instance)
     {
         __instance.CallBase<PlActionBase2D>(nameof(PlActionBase2D.FixedUpdate));
-        
-        if (__instance.ownerPlyer.nextAction == PlayerBase.EActionIndex.ActNone
-            && !__instance.ownerPlyer.IsOnGround)
+
+        if (__instance.ownerPlyer.nextAction != PlayerBase.EActionIndex.ActNone
+            || __instance.ownerPlyer.IsOnGround) return false;
+        var knuckles = __instance.ownerPlyer.TryCast<PlayerKnuckles2D>();
+        if (knuckles != null)
         {
-            var knuckles = __instance.ownerPlyer.TryCast<PlayerKnuckles2D>();
-            if (knuckles != null)
+            if (!knuckles.lastHitWallAir)
             {
-                if (!knuckles.lastHitWallAir)
+                float turnSpeed = 2.35f;
+                if (__instance.targetDir != UnitObjBase.EDirectionType.Right)
                 {
-                    float turnSpeed = 2.35f;
-                    if (__instance.targetDir != UnitObjBase.EDirectionType.Right)
-                    {
-                        turnSpeed *= -1;
-                    }
-
-                    if (GameScene_Helper.IsPlayerReverseAct)
-                        turnSpeed *= -1;
-                    
-                    turnSpeed *= Time.fixedDeltaTime;
-
-                    float speed = __instance.dirRate + turnSpeed;
-                    if (speed < -1)
-                        speed = -1;
-                    else if (speed > 1)
-                        speed = 1;
-
-                    __instance.dirRate = speed;
+                    turnSpeed *= -1;
                 }
-            }
 
-            float glideSpeed = 0.6f;
-            
-            if (__instance.targetVelX < 0)
-            {
-                glideSpeed *= -1;
-            }
+                if (GameScene_Helper.IsPlayerReverseAct)
+                    turnSpeed *= -1;
                     
-            glideSpeed *= Time.fixedDeltaTime;
+                turnSpeed *= Time.fixedDeltaTime;
 
-            glideSpeed += __instance.targetVelX;
-            if (glideSpeed < -15.2)
-                glideSpeed = -15.2f;
-            else if (glideSpeed > 15.2)
-                glideSpeed = 15.2f;
+                var speed = __instance.dirRate + turnSpeed;
+                speed = speed switch
+                {
+                    < -1 => -1,
+                    > 1 => 1,
+                    _ => speed
+                };
 
-            __instance.targetVelX = glideSpeed;
+                __instance.dirRate = speed;
+            }
         }
-        
+
+        var glideSpeed = 0.6f;
+            
+        if (__instance.targetVelX < 0)
+        {
+            glideSpeed *= -1;
+        }
+                    
+        glideSpeed *= Time.fixedDeltaTime;
+
+        glideSpeed += __instance.targetVelX;
+        if (glideSpeed < -15.2)
+            glideSpeed = -15.2f;
+        else if (glideSpeed > 15.2)
+            glideSpeed = 15.2f;
+
+        __instance.targetVelX = glideSpeed;
+
         return false;
     }
 }

@@ -22,7 +22,7 @@ using Object = Il2CppSystem.Object;
 #pragma warning disable 8620
 #pragma warning disable 8605
 
-namespace Sonic4;
+namespace SuperstarsTestMod;
 
 public static class Reflection {
 

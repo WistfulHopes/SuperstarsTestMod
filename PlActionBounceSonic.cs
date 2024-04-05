@@ -5,7 +5,6 @@ using Orion;
 using OriPlayer;
 using OriPlayerAction;
 using OriUnit;
-using Sonic4;
 using static DB_PlayerStats;
 // ReSharper disable InconsistentNaming
 
@@ -57,6 +56,7 @@ public class PlActionBounceSonic : PlActionJumpUniqueSonic
     public override void End([In] ref PlayerBase.EActionIndex nextId)
     {
         heightMultiplier = (float)1.0;
+        bounceVelocity = 0;
         ownerPlyer.ResetDrawLayer();
         ownerPlyer.ChangeBallForm(false);
         if (nextId == PlayerBase.EActionIndex.ActFall)
@@ -98,21 +98,31 @@ public class PlActionBounceSonic : PlActionJumpUniqueSonic
                 ChangeAction(ref actionId);
                 return;
             }
-            if (ownerPlyer.velocity.y > bounceVelocity * 0.8 * heightMultiplier) return;
             
             var inpPlyCtrl = ownerPlyer.inputPlyCtlr;
             var nowPad = inpPlyCtrl.playerPad.nowPad;
+            
+            if (ownerPlyer.velocity.y > bounceVelocity * 0.8 * heightMultiplier || heightMultiplier >= 1.3) return;
+
             if (!SysSaveDataKeyboardConfig.IsTriggerAction(SysSaveDataKeyboardConfig.EAction.Action, nowPad)) return;
-            heightMultiplier += (float)0.1;
-            if (heightMultiplier >= 1.25)
-                heightMultiplier = (float)1.25;
+            heightMultiplier += (float)0.2;
             Fall();
         }
         else
         {
-            bounceVelocity = -ownerPlyer.velocity.y * (float)0.75;
-            if (bounceVelocity <= 3.9)
-                bounceVelocity = (float)3.9;
+            var typeBit = ETypeBit.Super;
+            if (ownerPlyer.IsActDb(ref typeBit))
+            {
+                bounceVelocity = -ownerPlyer.velocity.y * (float)0.15 + bounceVelocity * 0.8f;
+                if (bounceVelocity <= 3.9)
+                    bounceVelocity = (float)3.9;
+            }
+            else
+            {
+                bounceVelocity = -ownerPlyer.velocity.y * (float)0.15 + bounceVelocity * 0.8f;
+                if (bounceVelocity <= 2.8)
+                    bounceVelocity = (float)2.8;
+            }
         }
     }
 
@@ -122,6 +132,19 @@ public class PlActionBounceSonic : PlActionJumpUniqueSonic
         var ownerPlyerVelocity = ownerPlyer.velocity;
         ownerPlyerVelocity.y -= ownerPlyer.GravityForce;
         ownerPlyer.velocity = ownerPlyerVelocity;
+        
+        var inpPlyCtrl = ownerPlyer.inputPlyCtlr;
+        var nowPad = inpPlyCtrl.playerPad.nowPad;
+        if (ownerPlyer.velocity.x <= 2.8 && SysSaveDataKeyboardConfig.IsOnAction(SysSaveDataKeyboardConfig.EAction.MoveRight, nowPad))
+        {
+            ownerPlyerVelocity.x += 0.18f;
+            ownerPlyer.velocity = ownerPlyerVelocity;
+        }
+        else if (ownerPlyer.velocity.x >= -2.8 && SysSaveDataKeyboardConfig.IsOnAction(SysSaveDataKeyboardConfig.EAction.MoveLeft, nowPad))
+        {
+            ownerPlyerVelocity.x -= 0.18f;
+            ownerPlyer.velocity = ownerPlyerVelocity;
+        }
     }
 
     public override void PostUpdate()

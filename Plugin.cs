@@ -1,7 +1,6 @@
 ﻿using BepInEx;
 using BepInEx.Unity.IL2CPP;
 using Il2CppInterop.Runtime.Injection;
-using Sonic4;
 
 namespace SuperstarsTestMod;
 
