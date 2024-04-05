@@ -16,7 +16,7 @@ public class Patcher
 {
     public static void DoPatching()
     {
-        var harmony = new Harmony("com.orion.sonic4");
+        var harmony = new Harmony("com.orion.testmod");
         harmony.PatchAll();
     }
 }
