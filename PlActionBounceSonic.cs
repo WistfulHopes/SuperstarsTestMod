@@ -60,7 +60,7 @@ public class PlActionBounceSonic : PlActionJumpUniqueSonic
         bounceVelocity = 0;
         ownerPlyer.ResetDrawLayer();
         ownerPlyer.ChangeBallForm(false);
-        if (nextId == PlayerBase.EActionIndex.ActFall)
+        if (nextId == PlayerBase.EActionIndex.ActJumpStampBound)
         {
             ownerPlyer.IsRoll = true;
         }

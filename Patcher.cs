@@ -26,8 +26,11 @@ class SonicInitActionPatch
     static void Postfix(PlayerSonic2D __instance)
     {
         var bounceAction = new PlActionBounceSonic();
-        var actionId = (PlayerBase.EActionIndex)300;
-        __instance.SetUpAction(ref actionId, bounceAction);
+        var bounceActionId = (PlayerBase.EActionIndex)300;
+        __instance.SetUpAction(ref bounceActionId, bounceAction);
+        var wSpinAction = new PlActionWSpinAttackSonic();
+        var wSpinActionId = (PlayerBase.EActionIndex)301;
+        __instance.SetUpAction(ref wSpinActionId, wSpinAction);
     }
 }
 
@@ -102,7 +105,7 @@ class UpdateUniqueSonic
             !__instance.firstUpdateUniqActCheck) return false;
         
         var isJumpPress = __instance.ownerPlyer.IsJumpPress();
-        if (isJumpPress)
+        if (isJumpPress && Plugin.SonicEnableDropDash)
         {
             if (__instance.animIputRate > 0)
             {
@@ -117,10 +120,32 @@ class UpdateUniqueSonic
                 __instance.animIputRate = (float)(__instance.ownerPlyer.GetDeltaTime + 0.016667);
             }
         }
-        else if (__instance.animIputRate > 0)
+        else if (__instance.animIputRate > 0 || isJumpPress && !Plugin.SonicEnableDropDash)
         {
-            var actionId = (PlayerBase.EActionIndex)300;
-            __instance.ChangeAction(ref actionId);
+            switch (Plugin.SonicExtraActionType)
+            {
+                case Plugin.ESonicExtraActionType.BounceAttack:
+                {
+                    var actionId = (PlayerBase.EActionIndex)300;
+                    __instance.ChangeAction(ref actionId);
+                    break;
+                }
+                case Plugin.ESonicExtraActionType.WSpinAttack:
+                {
+                    var bit = DB_PlayerStats.ETypeBit.Super;
+                    if (!__instance.ownerPlyer.IsActDb(ref bit) &&
+                        __instance.ownerPlyer.lastAction != (PlayerBase.EActionIndex)301
+                        && __instance.ownerPlyer.lastAction != PlayerBase.EActionIndex.ActJumpUnique)
+                    {
+                        var actionId = (PlayerBase.EActionIndex)301;
+                        __instance.ChangeAction(ref actionId);
+                    }
+                    break;
+                }
+                case Plugin.ESonicExtraActionType.None:
+                default:
+                    return false;
+            }
         }
         return false;
     }
