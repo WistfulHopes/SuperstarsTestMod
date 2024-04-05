@@ -275,16 +275,3 @@ class GlideUpdatePatch
         return false;
     }
 }
-
-[HarmonyPatch(typeof(PlActionKnucklesGlideFall), nameof(PlActionKnucklesGlideFall.Update))]
-class GlideFallUpdatePatch
-{
-    static void Postfix(PlActionKnucklesGlideFall __instance)
-    {
-        if (__instance.ownerPlyer.IsJumpTriggered())
-        {
-            var actionId = (PlayerBase.EActionIndex)301;
-            __instance.ChangeAction(ref actionId);
-        }
-    }
-}
