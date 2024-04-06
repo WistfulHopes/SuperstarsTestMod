@@ -10,9 +10,9 @@ namespace SuperstarsTestMod;
 
 public class PlActionWSpinAttackSonic : PlActionBase2D
 {
-    private const float HitRadius = 0.25f;
+    private const float HitRadius = 0.4f;
     private const float OriginalHitRadius = 0.175f;
-
+    
     public PlActionWSpinAttackSonic(IntPtr ptr) : base(ptr) { }
     
     public PlActionWSpinAttackSonic() : base(ClassInjector.DerivedConstructorPointer<PlActionWSpinAttackSonic>())
@@ -33,12 +33,12 @@ public class PlActionWSpinAttackSonic : PlActionBase2D
         var bodyVisible = false;
         ownerPlyer.SetBodyVisible(ref bodyVisible);
         ownerPlyer.ChangeBallForm(true, true, true);
-        var vec3One = UnitObjBase.Vec3One;
-        ownerPlyer.SetChargeBallLocalScale(ref vec3One);
+        var scale = new Vector3(1.2f,1.2f,1.2f);
+        ownerPlyer.SetChargeBallLocalScale(ref scale);
 
         var anim = "Roll";
         ownerPlyer.PlayAnim(ref anim);
-
+        
         ownerPlyer.PlaySe(PlayerBase.ESe.SpinCharge);
     }
 
@@ -63,7 +63,7 @@ public class PlActionWSpinAttackSonic : PlActionBase2D
         ownerPlyer.ApplyAir(ref delta, false, false, false, 
             false, 0, 0, true);
 
-        if (_duration < 0.15f) return;
+        if (_duration < 0.2f) return;
         var action = PlayerBase.EActionIndex.ActJumpStampBound;
         ChangeAction(ref action);
     }

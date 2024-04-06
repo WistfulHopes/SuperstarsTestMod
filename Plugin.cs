@@ -7,6 +7,9 @@ using BepInEx.Unity.IL2CPP;
 using Il2CppInterop.Runtime.Injection;
 using Tomlyn;
 using Tomlyn.Model;
+using UnityEngine.AddressableAssets;
+using UnityEngine.AddressableAssets.ResourceLocators;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace SuperstarsTestMod;
 
@@ -17,7 +20,7 @@ public class Plugin : BasePlugin
     {
         // Plugin startup logic
         Patcher.DoPatching();
-        
+
         ClassInjector.RegisterTypeInIl2Cpp<PlActionBounceSonic>();
         ClassInjector.RegisterTypeInIl2Cpp<PlActionWSpinAttackSonic>();
         
@@ -34,25 +37,18 @@ public class Plugin : BasePlugin
     }
 
     public static ESonicExtraActionType SonicExtraActionType = ESonicExtraActionType.None;
-    public static bool SonicEnableDropDash;
+    public static bool SonicEnableDropDash = true;
     
     private static string FindDLLPath()
     {
-        // Get the path of the DLL that injected the code
-        Assembly[] loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies();
-
-        return (from assembly in loadedAssemblies where assembly.FullName!.Contains("SuperstarsTestMod") select Path.GetDirectoryName(assembly.Location)).FirstOrDefault();
+        return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
     }
 
     private void LoadConfig()
     {
-        string path = FindDLLPath();
+        var path = FindDLLPath();
 
-        if (path is null)
-        {
-            Log.LogError($"Could not find the assembly directory for this mod! Did you rename the .DLL?");
-            return;
-        }
+        if (path is null) return;
 
         var configFile = Path.Combine(path, "config.toml");
         if (!File.Exists(configFile))

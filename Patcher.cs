@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Il2CppSystem;
 using OriBattleRoyal;
 using Orion;
 using OriPlayer;
@@ -102,15 +103,21 @@ class UpdateUniqueSonic
         }
 
         if (!__instance.IsUniqueActBase || !__instance.ownerPlyer.IsRoll ||
-            !__instance.firstUpdateUniqActCheck) return false;
+            !__instance.firstUpdateUniqActCheck &&
+            __instance.ownerPlyer.lastAction != (PlayerBase.EActionIndex)301) return false;
         
         var isJumpPress = __instance.ownerPlyer.IsJumpPress();
+        
         if (isJumpPress && Plugin.SonicEnableDropDash)
         {
             if (__instance.animIputRate > 0)
             {
                 __instance.animIputRate += __instance.ownerPlyer.GetDeltaTime;
-                if (!(__instance.animIputRate >= 0.3666)) return false;
+                
+                if
+                    (__instance.animIputRate < 0.3666 &&
+                     __instance.ownerPlyer.lastAction != (PlayerBase.EActionIndex)301 ||
+                     __instance.animIputRate < 0.1666) return false;
                 
                 var actionId = PlayerBase.EActionIndex.ActJumpUnique;
                 __instance.ChangeAction(ref actionId);
@@ -118,9 +125,36 @@ class UpdateUniqueSonic
             else
             {
                 __instance.animIputRate = (float)(__instance.ownerPlyer.GetDeltaTime + 0.016667);
+                switch (Plugin.SonicExtraActionType)
+                {
+                    case Plugin.ESonicExtraActionType.BounceAttack:
+                    {
+                        if (!Plugin.SonicEnableDropDash)
+                        {
+                            var actionId = (PlayerBase.EActionIndex)300;
+                            __instance.ChangeAction(ref actionId);
+                        }
+                        break;
+                    }
+                    case Plugin.ESonicExtraActionType.WSpinAttack:
+                    {
+                        var bit = DB_PlayerStats.ETypeBit.Super;
+                        if (!__instance.ownerPlyer.IsActDb(ref bit) &&
+                            __instance.ownerPlyer.lastAction != (PlayerBase.EActionIndex)301
+                            && __instance.ownerPlyer.lastAction != PlayerBase.EActionIndex.ActJumpUnique)
+                        {
+                            var actionId = (PlayerBase.EActionIndex)301;
+                            __instance.ChangeAction(ref actionId);
+                        }
+                        break;
+                    }
+                    case Plugin.ESonicExtraActionType.None:
+                    default:
+                        break;
+                }
             }
         }
-        else if (__instance.animIputRate > 0 || isJumpPress && !Plugin.SonicEnableDropDash)
+        else if (__instance.animIputRate > 0)
         {
             switch (Plugin.SonicExtraActionType)
             {
@@ -144,8 +178,13 @@ class UpdateUniqueSonic
                 }
                 case Plugin.ESonicExtraActionType.None:
                 default:
+                    __instance.animIputRate = 0;
                     return false;
             }
+        }
+        else
+        {
+            __instance.animIputRate = 0;
         }
         return false;
     }
