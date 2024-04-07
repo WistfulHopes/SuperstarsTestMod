@@ -36,6 +36,8 @@ public class Plugin : BasePlugin
         WSpinAttack
     }
 
+    public static ESonicExtraActionType RabbitExtraActionType = ESonicExtraActionType.None;
+    public static bool RabbitEnableDropDash = true;
     public static ESonicExtraActionType SonicExtraActionType = ESonicExtraActionType.None;
     public static bool SonicEnableDropDash = true;
     
@@ -66,5 +68,13 @@ public class Plugin : BasePlugin
             _ => ESonicExtraActionType.None
         };
         SonicEnableDropDash = (bool)((TomlTable)model["sonic"]!)["sonic_enable_drop_dash"];
+        
+        RabbitExtraActionType = (string)((TomlTable)model["rabbit"]!)["rabbit_extra_action_type"] switch
+        {
+            "WSpinAttack" => ESonicExtraActionType.WSpinAttack,
+            "BounceAttack" => ESonicExtraActionType.BounceAttack,
+            _ => ESonicExtraActionType.None
+        };
+        RabbitEnableDropDash = (bool)((TomlTable)model["rabbit"]!)["rabbit_enable_drop_dash"];
     }
 }

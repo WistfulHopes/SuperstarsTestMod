@@ -35,6 +35,20 @@ class SonicInitActionPatch
     }
 }
 
+[HarmonyPatch(typeof(PlayerRabbit2D), nameof(PlayerRabbit2D.InitAction))]
+class RabbitInitActionPatch
+{
+    static void Postfix(PlayerRabbit2D __instance)
+    {
+        var bounceAction = new PlActionBounceSonic();
+        var bounceActionId = (PlayerBase.EActionIndex)300;
+        __instance.SetUpAction(ref bounceActionId, bounceAction);
+        var wSpinAction = new PlActionWSpinAttackSonic();
+        var wSpinActionId = (PlayerBase.EActionIndex)301;
+        __instance.SetUpAction(ref wSpinActionId, wSpinAction);
+    }
+}
+
 [HarmonyPatch(typeof(PlActionJumpUniqueTails), nameof(PlActionJumpUniqueTails.Update))]
 class FlyUpdate
 {
@@ -107,8 +121,11 @@ class UpdateUniqueSonic
             __instance.ownerPlyer.lastAction != (PlayerBase.EActionIndex)301) return false;
         
         var isJumpPress = __instance.ownerPlyer.IsJumpPress();
+
+        var enableDropDash = __instance.ownerPlyer.TryCast<PlayerRabbit2D>() ? Plugin.RabbitEnableDropDash : Plugin.SonicEnableDropDash;
+        var extraActionType = __instance.ownerPlyer.TryCast<PlayerRabbit2D>() ? Plugin.RabbitExtraActionType : Plugin.SonicExtraActionType;
         
-        if (isJumpPress && Plugin.SonicEnableDropDash)
+        if (isJumpPress && enableDropDash)
         {
             if (__instance.animIputRate > 0)
             {
@@ -125,17 +142,8 @@ class UpdateUniqueSonic
             else
             {
                 __instance.animIputRate = (float)(__instance.ownerPlyer.GetDeltaTime + 0.016667);
-                switch (Plugin.SonicExtraActionType)
+                switch (extraActionType)
                 {
-                    case Plugin.ESonicExtraActionType.BounceAttack:
-                    {
-                        if (!Plugin.SonicEnableDropDash)
-                        {
-                            var actionId = (PlayerBase.EActionIndex)300;
-                            __instance.ChangeAction(ref actionId);
-                        }
-                        break;
-                    }
                     case Plugin.ESonicExtraActionType.WSpinAttack:
                     {
                         var bit = DB_PlayerStats.ETypeBit.Super;
@@ -148,6 +156,7 @@ class UpdateUniqueSonic
                         }
                         break;
                     }
+                    case Plugin.ESonicExtraActionType.BounceAttack:
                     case Plugin.ESonicExtraActionType.None:
                     default:
                         break;
@@ -156,7 +165,7 @@ class UpdateUniqueSonic
         }
         else if (__instance.animIputRate > 0)
         {
-            switch (Plugin.SonicExtraActionType)
+            switch (extraActionType)
             {
                 case Plugin.ESonicExtraActionType.BounceAttack:
                 {

@@ -24,8 +24,7 @@ public class PlActionWSpinAttackSonic : PlActionBase2D
 
     public override void Init(ref PlayerBase.EActionIndex lastId)
     {
-        ownerPlyer.gameObject.GetComponent<PlayerDataComponent>().localMultiBallColliAtk.GetComponent<SphereCollider>()
-            .radius = HitRadius;
+        ownerPlyer.Cast<PlayerSonic2D>().hitterEme.GetComponent<SphereCollider>().radius = HitRadius;
         ownerPlyer.bodyDamageObj.GetComponent<ColliEventReciever>().receptAttr = 0;
         
         ownerPlyer.IsRoll = true;
@@ -70,8 +69,7 @@ public class PlActionWSpinAttackSonic : PlActionBase2D
     
     public override void End(ref PlayerBase.EActionIndex nextId)
     {
-        ownerPlyer.gameObject.GetComponent<PlayerDataComponent>().localMultiBallColliAtk.GetComponent<SphereCollider>()
-            .radius = OriginalHitRadius;
+        ownerPlyer.Cast<PlayerSonic2D>().hitterEme.GetComponent<SphereCollider>().radius = OriginalHitRadius;
         ownerPlyer.bodyDamageObj.GetComponent<ColliEventReciever>().receptAttr = (EAtkAttribute)(-1);
 
         _duration = 0;
